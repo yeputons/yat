@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+import sys
+
+with open(sys.argv[1], "r") as f:
+    l1 = list(map(bool, map(int, f.read().strip().split("\n"))))
+with open(sys.argv[2], "r") as f:
+    l2 = list(map(bool, map(int, f.read().strip().split("\n"))))
+assert l1 == l2
