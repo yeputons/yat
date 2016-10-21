@@ -1,0 +1,15 @@
+read a;
+read b;
+print (24 * a * b) + (10 + a * 1) + b * 1 + 0;
+print -a;
+print -b;
+print 0;
+print 0;
+print 0 * a();
+print a() * 0;
+print a - b;
+print b - a;
+print b() - b();
+print a + 0;
+print 0 + a;
+print a + a;
