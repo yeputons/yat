@@ -1,0 +1,16 @@
+def foo(a, b) {
+    a - b;
+    0;
+    if (6) {
+        print(foo(0, a + a));
+        print -(6 + b);
+    } else {
+        print -(5 + a);
+        print(foo(0, b + b));
+    }
+    if (0) {
+        print(foo(0, a + a));
+        read foo;
+        print -(6 + b);
+    }
+}
