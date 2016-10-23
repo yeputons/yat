@@ -13,4 +13,5 @@ def foo(a, b) {
         read foo;
         print -(6 + b);
     }
+    something(1, 5, 0)(8, 5);
 }
