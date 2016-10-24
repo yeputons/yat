@@ -22,9 +22,10 @@ for f in $FILES; do
   echo "Looking for $f..."
   RES=$(find "repo/$SUBP" -name $f)
   CNT=$(echo "$RES" | wc -l)
-  if [[ $CNT == 0 ]]; then
+  if [[ -z "$RES" || $CNT == 0 ]]; then
     echo "  Not found"
     fail=1
+    continue
   elif [[ $CNT > 1 ]]; then
     echo "  More than one found"
     exit 1
