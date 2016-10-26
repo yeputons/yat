@@ -30,7 +30,7 @@ for f in $FILES; do
     echo "  More than one found"
     exit 1
   fi
-  mv "$RES" "yat/$f"
+  cp "$RES" "yat/$f"
   echo "  Done"
   echo "Running PEP8..."
   if pep8 "yat/$f"; then
