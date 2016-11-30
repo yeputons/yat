@@ -2,7 +2,7 @@
 
 set -e
 set -u
-source ./tlib.sh
+source "./tlib.sh"
 
 download model.py
 download printer.py
