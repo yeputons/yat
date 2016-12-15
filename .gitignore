@@ -2,6 +2,7 @@
 folder.py
 model.py
 printer.py
+static_analyzer.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
