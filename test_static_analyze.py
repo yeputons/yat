@@ -107,7 +107,15 @@ class TestPureCheckVisitor:
 @pytest.fixture
 def nrcv():
     from yat.static_analyzer import NoReturnCheckVisitor
-    return NoReturnCheckVisitor().visit
+    visit = NoReturnCheckVisitor().visit
+    def visit_wrapped(tree):
+        old_stdout = sys.stdout
+        sys.stdout = io.StringIO()
+        visit(tree)
+        result = set(sys.stdout.getvalue().splitlines())
+        sys.stdout = old_stdout
+        return result
+    return visit_wrapped
 
 class TestNoReturnCheckVisitor:
     def test_smoke(self, monkeypatch, nrcv):
@@ -132,9 +140,7 @@ class TestNoReturnCheckVisitor:
                 ])),
             ])
         )
-        monkeypatch.setattr(sys, "stdout", io.StringIO())
-        nrcv(prog)
-        assert set(sys.stdout.getvalue().splitlines()) == set(["foo", "baz"])
+        assert nrcv(prog) == set(["foo", "baz"])
 
 if __name__ == "__main__":
     pytest.main([sys.argv[0]])
