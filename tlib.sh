@@ -6,7 +6,7 @@ BASE_URL="${1:-}"
 
 function download() {
   if [[ -n "$BASE_URL" ]]; then
-    local URL=$(echo "$BASE_URL" | sed "s~model\.py~$1~")
+    local URL=$(echo "$BASE_URL" | sed "s~[a-z_]\+\.py~$1~")
 
     if ! echo "$URL" | grep "$1"; then
       URL+="/blob/master/$1"
