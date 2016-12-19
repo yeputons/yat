@@ -188,6 +188,7 @@ class TestNoReturnValueCheckVisitor:
 
         def test_embedded(self, nrcv):
             prog = FunctionDefinition("foo1", Function([], [
+                Conditional(Number(0), [], []),
                 FunctionDefinition("foo2", Function([], [
                     FunctionDefinition("foo3", Function([], [])),
                 ])),
@@ -281,8 +282,8 @@ class TestNoReturnValueCheckVisitor:
             bad = Conditional(Number(0), [], [])
             def func_def(name):
                 return FunctionDefinition(name, Function([], []))
-            prog = FunctionCall(bad, [Number(1), func_def("foo1"), Number(2), func_def("foo2"), Number(3)])
-            assert nrcv(prog) == set(["foo1", "foo2"])
+            prog = FunctionCall(func_def("foo0"), [Number(1), func_def("foo1"), bad, func_def("foo2"), Number(3)])
+            assert nrcv(prog) == set(["foo0", "foo1", "foo2"])
 
     class TestReference:
         def test_good(self, nrcv_good):
