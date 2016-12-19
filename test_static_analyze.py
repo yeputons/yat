@@ -106,8 +106,8 @@ class TestPureCheckVisitor:
 
 @pytest.fixture
 def nrcv():
-    from yat.static_analyzer import NoReturnCheckVisitor
-    visit = NoReturnCheckVisitor().visit
+    from yat.static_analyzer import NoReturnValueCheckVisitor
+    visit = NoReturnValueCheckVisitor().visit
     def visit_wrapped(tree):
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
@@ -117,7 +117,7 @@ def nrcv():
         return result
     return visit_wrapped
 
-class TestNoReturnCheckVisitor:
+class TestNoReturnValueCheckVisitor:
     def test_smoke(self, monkeypatch, nrcv):
         prog = (
             Conditional(Number(1), [
