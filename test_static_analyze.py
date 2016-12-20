@@ -170,7 +170,7 @@ class TestNoReturnValueCheckVisitor:
             prog = FunctionDefinition("foo", Function([], []))
             assert nrcv(prog) == set(["foo"])
 
-        def test_bad_with_args(self, nrcv):
+        def test_bad_empty_with_args(self, nrcv):
             prog = FunctionDefinition("foo", Function(["arg"], []))
             assert nrcv(prog) == set(["foo"])
 
@@ -260,6 +260,22 @@ class TestNoReturnValueCheckVisitor:
                 Conditional(Number(0), [], [])
             ])
             assert nrcv(prog) == set(["foo1", "foo3"])
+
+        def test_embed_in_true(self, nrcv):
+            prog = Conditional(Number(0), [
+                FunctionDefinition("foo1", Function([], [])),
+                FunctionDefinition("foo2", Function([], [Number(1)])),
+                Conditional(Number(0), [], [])
+            ], None)
+            assert nrcv(prog) == set(["foo1"])
+
+        def test_embed_in_false(self, nrcv):
+            prog = Conditional(Number(0), None, [
+                FunctionDefinition("foo3", Function([], [])),
+                FunctionDefinition("foo4", Function([], [Number(3)])),
+                Conditional(Number(0), [], [])
+            ])
+            assert nrcv(prog) == set(["foo3"])
 
     class TestPrint:
         def test_good(self, nrcv_good):
