@@ -277,6 +277,14 @@ class TestNoReturnValueCheckVisitor:
             ])
             assert nrcv(prog) == set(["foo3"])
 
+        def test_embed_in_cond(self, nrcv):
+            bad_cond = Conditional(Number(0), [
+                FunctionDefinition("foo", Function([], [])),
+                Number(0)
+            ])
+            prog = Conditional(bad_cond, [], [])
+            assert nrcv(prog) == set(["foo"])
+
     class TestPrint:
         def test_good(self, nrcv_good):
             assert nrcv_good(Print(Number(10)))
