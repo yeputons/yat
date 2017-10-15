@@ -300,7 +300,7 @@ class Parser:
         self.position = 0
         program = self.parse_block(False)
         if wrap:
-            return model.Function([], program)
+            return model.FunctionCall(model.Function([], program), [])
         return program
 
 if __name__ == "__main__":

@@ -25,9 +25,8 @@ def test_number():
     assert n.evaluate(scope) is n
 
 def test_function():
-    n = model.Number(0)
-    f = model.Function([], [n])
-    assert f.evaluate(model.Scope()) is n
+    f = model.Function([], [])
+    assert f.evaluate(model.Scope()) is f
 
 def test_function_definition():
     name = "foo"
@@ -42,7 +41,7 @@ def test_conditional():
     scope = model.Scope()
     true = model.Number(1)
     false = model.Number(0)
-    f = model.Function([], [true])
+    f = model.FunctionCall(model.Function([], [true]), [])
     cond = model.Conditional(true, None, None)
     cond.evaluate(scope)
     cond = model.Conditional(false, None, None)
