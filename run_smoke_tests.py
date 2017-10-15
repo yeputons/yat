@@ -18,6 +18,9 @@ def test_scope():
     scope["bar"] = ft
     assert scope["bar"] is ft
     assert parent["bar"] is t
+    parent["foo"] = t
+    assert parent["foo"] is t
+    assert scope["foo"] is t
 
 def test_number():
     scope = model.Scope()
