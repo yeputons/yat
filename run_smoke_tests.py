@@ -26,6 +26,11 @@ def test_number():
     scope = model.Scope()
     n = model.Number(42)
     assert n.evaluate(scope) is n
+    assert n == model.Number(42)
+    assert n != model.Number(43)
+    d = {n: 42, model.Number(10): 10}
+    assert d[model.Number(42)] == 42
+    assert d[model.Number(10)] == 10
 
 def test_function():
     f = model.Function([], [])
