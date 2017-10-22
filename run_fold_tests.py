@@ -3,6 +3,7 @@
 import io
 import os
 import sys
+import pep8
 from yat.parser import Parser, Scanner
 from yat.printer import PrettyPrinter
 from yat.folder import ConstantFolder
@@ -39,6 +40,7 @@ def do_test(inp_filename):
 if __name__ == "__main__":
     import glob
     import traceback
+    pep8.Checker("yat/folder.py").check_all()
     for filename in sorted(glob.glob("tests/fold/*.y")):
         try:
             do_test(filename)
