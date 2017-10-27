@@ -3,19 +3,24 @@
 set -u
 set -e
 
-URL="$(echo "$1" | sed "s~/tree/master\(/.*\|$\)~~" | sed "s~\.git\$~~")"
-SUBP="./"
-if echo "$1" | grep "/tree/master"; then
-  SUBP="./$(echo "$1" | sed "s~.*/tree/master\(\)~\1~")"
-fi
+PARSED=($(./repo_parse.py "$@"))
 FILES="model.py folder.py printer.py"
+REPO_URL="${PARSED[0]}"
+BRANCH="${PARSED[1]}"
+SUBP="${PARSED[2]}"
 
 echo Cleaning...
 rm -rf repo >/dev/null 2>&1 || true
 for f in $FILES; do rm yat/$f >/dev/null 2>&1 || true; done
 echo "  Done"
 
-git clone "$URL" repo --depth=1
+BRANCH_ARG=""
+if [ -n "$BRANCH" ]; then
+  BRANCH_ARG="--branch=$BRANCH"
+fi
+
+echo git clone "$REPO_URL" repo --depth=1 "$BRANCH_ARG"
+git clone "$REPO_URL" repo --depth=1 "$BRANCH_ARG"
 
 fail=0
 for f in $FILES; do
