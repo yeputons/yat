@@ -26,8 +26,10 @@ def do_test(inp_filename):
     answers = Parser().parse(Scanner(ans_filename), wrap=False)
     assert len(inputs) == len(answers)
     for inp, ans in zip(inputs, answers):
+        inp_str = program_to_str(inp)
         out_str = program_to_str(ConstantFolder().visit(inp))
         ans_str = program_to_str(ans)
+        inp2_str = program_to_str(inp)
         out_str_stripped = out_str.replace("(", "").replace(")", "")
         ans_str_stripped = ans_str.replace("(", "").replace(")", "")
         assert out_str_stripped == ans_str_stripped
