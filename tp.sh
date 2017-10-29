@@ -10,7 +10,6 @@ download printer.py
 for prog in tests/format/*.y; do
   echo "===== New test ====="
   function go() {
-    cat $prog
     echo "====="
     ./format.py $prog >student.y || return 1
 
