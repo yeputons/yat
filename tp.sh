@@ -18,8 +18,8 @@ for prog in tests/format/*.y; do
     indent=""
     for ((i=1; $i <= 10; i++)); do
       indent+=" "
-      if grep "^$indent[^ ]" student.y; then
-        echo "Detected indent = $indent"
+      if grep "^$indent[^ ]" student.y >/dev/null 2>&1; then
+        echo "Detected indent = |$indent|"
         sed -i "s/$indent/    /g" student.y
         break
       fi
