@@ -26,10 +26,22 @@ for prog in tests/format/*.y; do
     unix2dos student.y >/dev/null 2>&1
 
     ./parse.py student.y || return 1
-    diff -y $prog student.y
-    echo -n "    Good or bad (g/b)? "
-    read ans
-    [[ "$ans" == "g" ]]
+    
+    if diff <(cat $prog | tr -d '()') <(cat student.y | tr -d '()') >/dev/null; then
+      ans=g
+    else
+      diff -y <(cat $prog | tr -d '()') <(cat student.y | tr -d '()')
+      echo -n "    No brackets: good or bad (g/b)? "
+      read ans
+    fi
+    if [[ "$ans" == "g" ]]; then
+      diff -y $prog student.y
+      echo -n "    As-is: good or bad (g/b)? "
+      read ans
+      [[ "$ans" == "g" ]]
+    else
+      false
+    fi
   }
   tst "$prog" go
   rm student.y
