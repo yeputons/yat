@@ -23,3 +23,5 @@ foo1();
 print(!1);
 print(!2);
 print(5 * !1);
+print(-(-5));
+print(-(-(-(2 * 2))));
