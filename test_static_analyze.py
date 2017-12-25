@@ -289,8 +289,12 @@ class TestNoReturnValueCheckVisitor:
         def test_good(self, nrcv_good):
             assert nrcv_good(Print(Number(10)))
 
-        def test_bad_with_cond(self, nrcv_good):
-            assert not nrcv_good(Print(Conditional(Number(0), [], [])))
+        def test_good_with_bad_embed(self, nrcv_good):
+            assert nrcv_good(Print(Conditional(Number(0), [], [Number(10)])))
+
+        def test_embedded(self, nrcv):
+            prog = Print(FunctionDefinition("foo", Function([], [])))
+            assert nrcv(prog) == set(["foo"])
 
     class TestRead:
         def test_good(self, nrcv_good):
@@ -318,14 +322,14 @@ class TestNoReturnValueCheckVisitor:
         def test_good(self, nrcv_good):
             assert nrcv_good(BinaryOperation(Number(1), "+", Number(2)))
 
-        def test_bad_lhs_with_cond(self, nrcv_good):
-            assert not nrcv_good(BinaryOperation(Conditional(Number(0), [], []), "+", Number(2)))
+        def test_good_with_bad_lhs(self, nrcv_good):
+            assert nrcv_good(BinaryOperation(Conditional(Number(0), [], []), "+", Number(2)))
 
-        def test_bad_rhs_with_cond(self, nrcv_good):
-            assert not nrcv_good(BinaryOperation(Number(1), "+", Conditional(Number(0), [], [])))
+        def test_good_with_bad_rhs(self, nrcv_good):
+            assert nrcv_good(BinaryOperation(Number(1), "+", Conditional(Number(0), [], [])))
 
-        def test_bad_both_with_cond(self, nrcv_good):
-            assert not nrcv_good(BinaryOperation(Conditional(Number(0), [], []), "+", Conditional(Number(0), [], [])))
+        def test_good_with_bad_both(self, nrcv_good):
+            assert nrcv_good(BinaryOperation(Conditional(Number(0), [], []), "+", Conditional(Number(0), [], [])))
 
         def test_embedded(self, nrcv):
             def func_def(name):
@@ -351,8 +355,16 @@ class TestNoReturnValueCheckVisitor:
         def test_good(self, nrcv_good):
             assert nrcv_good(UnaryOperation("-", Number(1)))
 
-        def test_bad_expr_with_cond(self, nrcv_good):
-            assert not nrcv_good(UnaryOperation("-", Conditional(Number(0), [], [])))
+        def test_good_expr_with_bad_embed(self, nrcv_good):
+            assert nrcv_good(UnaryOperation("-", Conditional(Number(0), [], [])))
+
+        def test_embedded(self, nrcv):
+            bad = Conditional(Number(0), [], [])
+            def func_def(name):
+                return FunctionDefinition(name, Function([], []))
+            prog = UnaryOperation("-", func_def("foo1"))
+            assert nrcv(prog) == set(["foo1"])
+
 
 if __name__ == "__main__":
     pytest.main([sys.argv[0]])
