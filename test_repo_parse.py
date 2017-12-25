@@ -1,4 +1,4 @@
-from download import parse_url, ParsedUrl
+from repo_parse import parse_url, ParsedUrl
 
 class TestParseGitHub:
     def test_root(self):

@@ -37,8 +37,8 @@ for f in $FILES; do
   fi
   cp "$RES" "yat/$f"
   echo "  Done"
-  echo "Running PEP8..."
-  if pep8 "yat/$f"; then
+  echo "Running pycodestyle..."
+  if pycodestyle "yat/$f"; then
     echo "  Done"
   else
     fail=1

@@ -25,8 +25,8 @@ function download() {
     echo "File yat/$1 not found"
     exit 1
   fi
-  echo "Running PEP8 on yat/$1..."
-  pep8 "yat/$1" && echo "    ok" || t_fail=1
+  echo "Running pycodestyle on yat/$1..."
+  pycodestyle "yat/$1" && echo "    ok" || t_fail=1
 }
 
 function tst() {
