@@ -285,6 +285,14 @@ class TestNoReturnValueCheckVisitor:
             prog = Conditional(bad_cond, [], [])
             assert nrcv(prog) == set(["foo"])
 
+        def test_embed_in_last(self, nrcv):
+            def func_def(name):
+                return FunctionCall(FunctionDefinition(name, Function([], [])), [])
+            def comb_func_def(name1, name2):
+                return Conditional(Number(0), [func_def(name1)], [func_def(name2)])
+            prog = Conditional(Number(0), [comb_func_def("foo1", "foo2")], [comb_func_def("foo3", "foo4")])
+            assert nrcv(prog) == set(["foo1", "foo2", "foo3", "foo4"])
+
     class TestPrint:
         def test_good(self, nrcv_good):
             assert nrcv_good(Print(Number(10)))
